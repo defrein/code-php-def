@@ -1,0 +1,48 @@
+{
+    "tertib_usaha": {
+        "jenis": {
+            "value": "Usaha Jasa Konsultansi Konstruksi",
+            "status": 2
+        },
+        "sifat": {
+            "value": "Spesialis",
+            "status": 2
+        },
+        "klasifikasi": {
+            "value": "Konsultansi Ilmiah dan Teknis",
+            "status": 2
+        },
+        "layanan_usaha": {
+            "value": "Analisis",
+            "status": 2
+        }
+    },
+    "tertib_penyelenggaraan": {
+        "bukti_kesesuaian_pelaksanaan_pengadaan_barang_atau_jasa": {
+            "status": 2
+        },
+        "bukti_tentang_penyusunan_dan_pelaksanaan_kontrak_kerja_konstruksi": {
+            "status": 2
+        },
+        "bukti_tentang_penerapan_standar_keamanan_keselamatan_kesehatan_dan_keberlanjutan_konstruksi": {
+            "status": 2
+        },
+        "bukti_tentang_penyusunan_dan_penerapan_manajemen_mutu": {
+            "status": 2
+        },
+        "bukti_tentang_pengelolaan_dan_penggunaan_material_peralatan_dan_teknologi_konstruksi": {
+            "status": 2
+        }
+    },
+    "tertib_pemanfaatan": {
+        "bukti_penyerahan_aset_atau_barang": {
+            "status": 0
+        },
+        "sertifikat_laik_fungsi": {
+            "status": 0
+        },
+        "kontrak_atau_skk_umur_bangunan": {
+            "status": 0
+        }
+    }
+}
