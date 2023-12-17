@@ -1,0 +1,40 @@
+.container {
+  min-height: 200px;
+  width: 40%;
+  margin: auto;
+  background: #ccc;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.inputan {
+  flex: 1;
+  padding: 20px;
+}
+
+.bagian-hasil {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+input {
+  width: 80%;
+}
+
+#muncul-hasil {
+  padding-left: 20px;
+  padding-right: 0;
+  height: 80%;
+  width: 80%;
+  border: 1px solid #000;
+}
+
+#muncul-hasil p{
+    margin: 5px 0 !important;
+    padding: 0;
+}

@@ -10,7 +10,7 @@ class BangunDatar
         return $this;
     }
 
-    public function hitungLuasBangun(array $input)
+    public function __hitungLuasBangun(array $input)
     {
         switch ($this->bangunDatar) {
             case 'persegi':
@@ -32,28 +32,50 @@ class BangunDatar
 
         return $luas;
     }
+    public function hitungLuasBangun(object $input = null)
+    {
+        switch ($this->bangunDatar) {
+            case 'persegi':
+                $luas = Persegi::hitungLuas($input->sisi);
+                break;
+            case 'lingkaran':
+                $luas = Lingkaran::hitungLuas($input->radius);
+                break;
+            case 'segitiga':
+                $luas = Segitiga::hitungLuas($input->alas, $input->tinggi);
+                break;
+            case 'persegi-panjang':
+                $luas = PersegiPanjang::hitungLuas($input->panjang, $input->lebar);
+                break;
+            case 'trapesium':
+                $luas = Trapesium::hitungLuas($input->alas, $input->atap, $input->tinggi);
+                break;
+        }
+
+        return $luas;
+    }
 
     public function _hitungKelilingBangun()
     {
     }
 
-    public function hitungKelilingBangun(array $input)
+    public function hitungKelilingBangun(object $input = null)
     {
         switch ($this->bangunDatar) {
             case 'persegi':
-                $keliling = Persegi::hitungKeliling($input['sisi']);
+                $keliling = Persegi::hitungKeliling($input->sisi);
                 break;
             case 'lingkaran':
-                $keliling = Lingkaran::hitungKeliling($input['radius']);
+                $keliling = Lingkaran::hitungKeliling($input->radius);
                 break;
             case 'segitiga':
-                $keliling = Segitiga::hitungKeliling($input['alas'], $input['tinggi']);
+                $keliling = Segitiga::hitungKeliling($input->alas, $input->tinggi);
                 break;
             case 'persegi-panjang':
-                $keliling = PersegiPanjang::hitungKeliling($input['panjang'], $input['lebar']);
+                $keliling = PersegiPanjang::hitungKeliling($input->panjang, $input->lebar);
                 break;
             case 'trapesium':
-                $keliling = Trapesium::hitungKeliling($input['alas'], $input['atap'], $input['tinggi']);
+                $keliling = Trapesium::hitungKeliling($input->alas, $input->atap, $input->tinggi);
                 break;
         }
 
@@ -237,7 +259,7 @@ class Trapesium extends BangunDatar
     {
         $alas_segitiga = ($alas - $atap) / 2;
         $sisi_miring = sqrt(pow($tinggi, 2) + pow($alas_segitiga, 2));
-        return $alas + $atap + 2 * $sisi_miring;
+        return round(($alas + $atap + 2 * $sisi_miring), 2);
     }
 }
 
@@ -251,44 +273,7 @@ class Trapesium extends BangunDatar
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hitung Luas dan Keliling Bangun Datar</title>
-    <style>
-        .container {
-            min-height: 200px;
-            width: 40%;
-            margin: auto;
-            background: #ccc;
-            padding: 20px;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .inputan {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .bagian-hasil {
-            flex: 1;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        input {
-            width: 80%;
-        }
-
-        #muncul-hasil {
-            padding-left: 20px;
-            padding-right: 0;
-            height: 80%;
-            width: 80%;
-            border: 1px solid #000;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
@@ -297,61 +282,51 @@ class Trapesium extends BangunDatar
 
     <?php
 
-    // function munculHasil(object $input){
-    //     if ($input === null){
-    //         return;
-    //     }
-        
-    //     switch ($input->bangun_datar){
-    //         case 'persegi':
-    //             return 'echo'
-    //     }
-    // }
+    $shapes = [
+        [
+            'slug' => 'persegi',
+            'name' => 'Persegi'
+        ],
+        [
+            'slug' => 'lingkaran',
+            'name' => 'Lingkaran'
+        ],
+        [
+            'slug' => 'segitiga',
+            'name' => 'Segitiga'
+        ],
+        [
+            'slug' => 'persegi-panjang',
+            'name' => 'Persegi Panjang'
+        ],
+        [
+            'slug' => 'trapesium',
+            'name' => 'Trapesium'
+        ],
+    ];
+
     (object) $post = null;
     $hasil = null;
 
     if (isset($_POST['h-luas'])) {
 
         $post = (object) $_POST;
-        var_dump($post);
+        // var_dump($post);
 
         $bangun_datar = new BangunDatar();
-
-
         $bangun_datar->setBangunDatar($post->{'bangun-datar'});
-        switch ($post->{'bangun-datar'}) {
-            case 'persegi':
-                $luas = $bangun_datar->hitungLuasBangun($post->sisi);
-                break;
-            case 'lingkaran':
-                $luas = $bangun_datar->hitungLuasBangun($post->radius);
-                break;
-            case 'segitiga':
-                $luas = $bangun_datar->hitungLuasBangun($post->alas, $post->tinggi);
-                break;
-        }
+        $luas = $bangun_datar->hitungLuasBangun($post);
 
         $hasil = 'Luas: ' . $luas;
     }
 
     if (isset($_POST['h-keliling'])) {
         $post = (object) $_POST;
+        // var_dump($post);
 
-        $bangun_datar = new BangunDatar($post->bangun_datar);
-
-        $bangun_datar = new BangunDatar($post->bangun_datar);
-        $bangun_datar->setBangunDatar($input_bangun_datar);
-        switch ($input_bangun_datar) {
-            case 'persegi':
-                $keliling = $bangun_datar->hitungKelilingBangun($input_sisi);
-                break;
-            case 'lingkaran':
-                $keliling = $bangun_datar->hitungKelilingBangun(null, $input_radius);
-                break;
-            case 'segitiga':
-                $keliling = $bangun_datar->hitungKelilingBangun(null, null, $input_alas, $input_tinggi);
-                break;
-        }
+        $bangun_datar = new BangunDatar();
+        $bangun_datar->setBangunDatar($post->{'bangun-datar'});
+        $keliling = $bangun_datar->hitungKelilingBangun($post);
 
         $hasil = 'Keliling: ' . $keliling;
     }
@@ -360,16 +335,15 @@ class Trapesium extends BangunDatar
     <div class="container">
         <form class="inputan" method="post" action="">
 
-            <div class="form-group">
+            <div class="form-group" id="select-bangun">
                 <!-- <label for="bangun-datar">Pilih Bangun datar</label> -->
                 <select name="bangun-datar" id="bangun-datar">
                     <option value="0">-- Pilih bangun datar --</option>
-                    <option value="persegi">Persegi</option>
-                    <option value="lingkaran">Lingkaran</option>
-                    <option value="segitiga">Segitiga</option>
+                    <?php foreach ($shapes as $shape): ?>
+                    <option value="<?=$shape['slug']  ?>"><?= $shape['name'] ?></option>
+                    <?php endforeach ?>
                 </select>
             </div>
-
 
             <div class="form-group" id="group-sisi">
                 <label for="sisi">Masukkan sisi</label>
@@ -389,11 +363,23 @@ class Trapesium extends BangunDatar
                 <label for="tinggi">Masukkan tinggi</label>
                 <input type="number" name="tinggi" id="tinggi">
             </div>
+            <div class="form-group" id="group-atap">
+                <label for="atap">Masukkan atap</label>
+                <input type="number" name="atap" id="atap">
+            </div>
+            <div class="form-group" id="group-panjang">
+                <label for="panjang">Masukkan panjang</label>
+                <input type="number" name="panjang" id="panjang">
+            </div>
+            <div class="form-group" id="group-lebar">
+                <label for="lebar">Masukkan lebar</label>
+                <input type="number" name="lebar" id="lebar">
+            </div>
 
-            <div class="form-group">
+            <div class="form-group" id="buttons">
                 <button id="hitung-luas" type="submit" name="h-luas">Hitung Luas</button>
                 <button id="hitung-keliling" type="submit" name="h-keliling">Hitung Keliling</button>
-                <button id="reset" onclick="hapusHasil()" type="button">Reset</button>
+                <button id="reset" onclick="clearHasil()" type="button">Clear</button>
             </div>
         </form>
         <div class="bagian-hasil">
@@ -414,45 +400,60 @@ class Trapesium extends BangunDatar
                     <p>Alas:<?= $post?->alas; ?> </p>
                     <p>Tinggi:<?= $post?->tinggi; ?> </p>
                 <?php endif ?>
+
+                <?php if ($post?->{'bangun-datar'} === 'persegi-panjang') :  ?>
+                    <p>Persegi Panjang</p>
+                    <p>Panjang:<?= $post?->panjang; ?> </p>
+                    <p>Lebar:<?= $post?->lebar; ?> </p>
+                <?php endif ?>
+
+                <?php if ($post?->{'bangun-datar'} === 'trapesium') :  ?>
+                    <p>Trapesium</p>
+                    <p>Alas:<?= $post?->alas; ?> </p>
+                    <p>Tinggi:<?= $post?->tinggi; ?> </p>
+                    <p>Atap:<?= $post?->atap; ?> </p>
+                <?php endif ?>
                 <?= $hasil ?>
             </div>
         </div>
     </div>
 
     <script>
-        function hapusHasil() {
+        function clearHasil() {
             $('#muncul-hasil').html('')
-            // const munculHasil = document.getElementById("muncul-hasil");
-            // munculHasil.innerHTML = '';
         }
 
-        $('#group-sisi').hide();
-        $('#group-radius').hide();
-        $('#group-alas').hide();
-        $('#group-tinggi').hide();
+        // $('#group-sisi').hide();
+        // $('#group-radius').hide();
+        // $('#group-alas').hide();
+        // $('#group-tinggi').hide();
+
+        $('.inputan').children().not(':first').not(':last').hide();
 
         $(function() {
 
             // $('.inputan').hide();
             $('#bangun-datar').change(function() {
+                $('.inputan').children().not(':first').not(':last').hide();
                 if ($('#bangun-datar').val() == 'persegi') {
                     $('#group-sisi').show();
-                    $('#group-radius').hide();
-                    $('#group-alas').hide();
-                    $('#group-tinggi').hide();
                 }
 
                 if ($('#bangun-datar').val() == 'lingkaran') {
-                    $('#group-sisi').hide();
                     $('#group-radius').show();
-                    $('#group-alas').hide();
-                    $('#group-tinggi').hide();
                 }
 
                 if ($('#bangun-datar').val() == 'segitiga') {
-                    $('#group-sisi').hide();
-                    $('#group-radius').hide();
                     $('#group-alas').show();
+                    $('#group-tinggi').show();
+                }
+                if ($('#bangun-datar').val() == 'persegi-panjang') {
+                    $('#group-panjang').show();
+                    $('#group-lebar').show();
+                }
+                if ($('#bangun-datar').val() == 'trapesium') {
+                    $('#group-alas').show();
+                    $('#group-atap').show();
                     $('#group-tinggi').show();
                 }
 
