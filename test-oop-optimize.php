@@ -4,9 +4,12 @@ $input_bangun_datar = [
     'radius' => 0,
     'alas' => 8,
     'tinggi' => 10,
+    'panjang' => 10,
+    'lebar' => 10,
+    'atap' => 10,
 ];
 
-array $shapes = [
+$shapes = [
     [
         'slug' => 'persegi',
         'name' => 'Persegi'
