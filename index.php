@@ -28,9 +28,9 @@ class BangunDatar
 
     public $luas;
 
-    $orang['nama'];
-    $orang->nama;
-    new Orang;
+    // $orang['nama'];
+    // $orang->nama;
+    // new Orang;
 
     public function setBangunDatar()
     {

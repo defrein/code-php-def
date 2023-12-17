@@ -13,7 +13,7 @@ class BangunDatar
         $this->bangunDatar = $bangun;
         return $this;
     }
-
+ 
     public function hitungLuasBangun($sisi = null, $radius = null, $alas = null, $tinggi = null)
     {
 
