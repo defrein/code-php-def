@@ -1,0 +1,2 @@
+<?php
+mahasiswa_baru
